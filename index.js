@@ -28,11 +28,21 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
+
+  counter1 uses a closure to increment the count variable, which is declared in the function counterMaker.
+  counter1 is better from a memory perspective.
+  counter2 declares the count variable in the global scope.
   
   2. Which of the two uses a closure? How can you tell?
+
+  Both counter1 and counter2 use a closure, because they both reach outside of their scope to find a variable
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+
+  counter1 is preferable in most cases. 
+  If you are not going to be modifying a variable at many different places in your program, it is better to have it declared locally rather than globally
+  If you have a variable that needs to be used/modified at many different places in your program, counter2 would be better.
 */
 
 // counter1 code
