@@ -72,10 +72,9 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+    return Math.round(Math.random()*2);
 }
-
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
 Use the finalScore function below to do the following:
@@ -91,8 +90,16 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(inning, num){
+  const scores = {
+    "Home": 0,
+    "Away": 0
+  }
+  for(let i = 0; i < num; i++) {
+    scores.Home += inning();
+    scores.Away += inning();
+  }
+  return scores;
 }
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
@@ -100,8 +107,11 @@ Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(inning) {
+  return {
+    "Home": inning(),
+    "Away": inning()
+  }
 }
 
 
@@ -146,8 +156,24 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, num) {
+  let scoresArray = [];
+  let results = {
+    "Home": 0,
+    "Away": 0,
+    "Scores": function(away, home) {return `Away ${away} - Home ${home}`},
+    "TieMessage": function() {return `This game will require extra innings: ${this.Scores(this.Away, this.Home)}`},
+    "FinalScore": function() {return `Final Score: ${this.Scores(this.Away, this.Home)}`}
+  }
+  for(let i = 0; i < num; i++) {
+    let homeScore = getInningScore(inning).Home;
+    let awayScore = getInningScore(inning).Away;
+    results.Home += homeScore;
+    results.Away += awayScore;
+    scoresArray.push(`Inning ${i+1}: ${results.Scores(awayScore, homeScore)}`);
+  }
+  results.Home === results.Away ? scoresArray.push(results.TieMessage()) : scoresArray.push(results.FinalScore());
+  return scoresArray;
 }
 
 
